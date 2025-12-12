@@ -13,12 +13,7 @@ namespace ProductCatalog.Core.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
-        [Required]
-        [DataType(DataType.DateTime)]
         public DateTime CreatedAt { get; set; }
-
-        [DataType(DataType.DateTime)]
         public DateTime? UpdatedAt { get; set; }
 
     }
