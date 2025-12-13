@@ -12,12 +12,14 @@ namespace ProductCatalog.Data.DependencyInjection
 {
     public static class DataServiceCollectionExtensions
     {
-        public static IServiceCollection AddData(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddData(
+              this IServiceCollection services,
+              IConfiguration configuration)
         {
-            var conn = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySql(conn, ServerVersion.AutoDetect(conn),
-                    b => b.MigrationsAssembly("ECommerce.Data")));
+                options.UseSqlite(
+                    configuration.GetConnectionString("DefaultConnection")));
+
             return services;
         }
     }
