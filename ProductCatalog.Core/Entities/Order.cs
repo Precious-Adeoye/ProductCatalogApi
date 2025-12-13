@@ -17,7 +17,7 @@ namespace ProductCatalog.Core.Entities
         public DateTime OrderDate { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalAmount { get; set; }
-        public OrderStatus Status { get; set; }
+        public OrderStatus Status { get; set; } = OrderStatus.Pending;
         [Required, StringLength(200)]
         public string CustomerEmail { get; set; } = string.Empty;
         [Required, StringLength(200)]

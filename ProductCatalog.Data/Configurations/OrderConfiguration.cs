@@ -19,7 +19,7 @@ namespace ProductCatalog.Data.Configurations
             builder.Property(o => o.OrderNumber).IsRequired().HasMaxLength(50);
             builder.Property(o => o.OrderDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
             builder.Property(o => o.TotalAmount).HasPrecision(18, 2).IsRequired();
-            builder.Property(o => o.Status).HasConversion<string>().HasMaxLength(20).HasDefaultValue(OrderStatus.Pending.ToString());
+            builder.Property(o => o.Status).HasConversion<string>().HasMaxLength(20).IsRequired();
             builder.Property(o => o.CustomerEmail).IsRequired().HasMaxLength(200);
             builder.Property(o => o.CustomerName).IsRequired().HasMaxLength(200);
             builder.HasIndex(o => o.OrderNumber).IsUnique();
