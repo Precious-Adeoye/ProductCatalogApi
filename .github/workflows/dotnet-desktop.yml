@@ -1,4 +1,4 @@
-name: .NET API CI
+name: .NET API CI (Optimized)
 
 on:
   push:
@@ -14,22 +14,31 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Setup .NET
+    - name: Setup .NET with NuGet cache
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+        cache: true
 
-    - name: Restore dependencies
-      run: dotnet restore ./ProductCatalogApi/ProductCatalogApi.csproj
+    - name: Restore (cached)
+      run: dotnet restore ./ProductCatalogApi/ProductCatalogApi.sln
 
-    - name: Build
-      run: dotnet build ./ProductCatalogApi/ProductCatalogApi.csproj --configuration Release --no-restore
+    - name: Build (no restore)
+      run: dotnet build ./ProductCatalogApi/ProductCatalogApi.sln \
+           --configuration Release \
+           --no-restore
 
-    - name: Test
-      run: dotnet test ./ProductCatalogApi/ProductCatalogApi.csproj --configuration Release --no-build --verbosity normal
+    - name: Test (no build)
+      run: dotnet test ./ProductCatalogApi/ProductCatalogApi.sln \
+           --configuration Release \
+           --no-build \
+           --verbosity minimal
 
-    - name: Publish API
-      run: dotnet publish ./ProductCatalogApi/ProductCatalogApi.csproj -c Release -o ./publish
+    - name: Publish API (no restore)
+      run: dotnet publish ./ProductCatalogApi/ProductCatalogApi/ProductCatalogApi.csproj \
+           --configuration Release \
+           --no-restore \
+           -o ./publish
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
