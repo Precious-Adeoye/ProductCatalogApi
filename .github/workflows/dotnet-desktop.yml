@@ -19,20 +19,25 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    - name: Restore
-      run: dotnet restore ./ProductCatalogApi/ProductCatalogApi.sln
+    # Restore using solution file
+    - name: Restore dependencies
+      run: dotnet restore ./ProductCatalogApi.sln
 
-    - name: Build
-      run: dotnet build ./ProductCatalogApi/ProductCatalogApi.sln --configuration Release --no-restore
+    # Build solution
+    - name: Build solution
+      run: dotnet build ./ProductCatalogApi.sln --configuration Release --no-restore
 
-    - name: Test
-      run: dotnet test ./ProductCatalogApi/ProductCatalogApi.sln --configuration Release --no-build
+    # Run tests (safe even if you have none)
+    - name: Run tests
+      run: dotnet test ./ProductCatalogApi.sln --configuration Release --no-build --verbosity normal
 
+    # Publish API project
     - name: Publish API
-      run: dotnet publish ./ProductCatalogApi/ProductCatalogApi/ProductCatalogApi.csproj -c Release -o ./publish
+      run: dotnet publish ./ProductCatalogApi/ProductCatalogApi.csproj -c Release -o ./publish
 
-    - name: Upload Artifact
+    # Upload published artifact
+    - name: Upload build artifact
       uses: actions/upload-artifact@v4
       with:
-        name: api-build
+        name: product-catalog-api
         path: publish
